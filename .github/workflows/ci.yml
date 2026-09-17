@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run action
+        id: run-action
+        uses: ./
+        with:
+          custom-text: "Hello from CI"
+
+      - name: Build Docker image directly (sanity check)
+        run: docker build -t sample-action:ci .
